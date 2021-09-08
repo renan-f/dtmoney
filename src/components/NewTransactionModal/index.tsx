@@ -3,7 +3,6 @@ import Modal from 'react-modal';
 import closeImg from '../../assets/close.svg';
 import incomeImg from '../../assets/income.svg';
 import outcomeImg from '../../assets/outcome.svg';
-import { api } from '../../services/api';
 import { TransactionsContext } from '../../TransactionsContext';
 import { Container, TransactionTypeContainer, RadioBox } from './styles';
 
@@ -18,16 +17,24 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
     const [title, setTitle] = useState('');
     const [amount, setAmount] = useState(0);
     const [category, setCategory] = useState('');
-    const [type, setType] = useState('deposity');
+    const [type, setType] = useState('deposit');
 
-    function handleCreateNewTransaction(event: FormEvent) {
+    async function handleCreateNewTransaction(event: FormEvent) {
         event.preventDefault();
-        createTransactions({
+        await createTransactions({
             title,
             amount,
             category,
             type
         });
+
+        setTitle('');
+        setAmount(0);
+        setCategory('');
+        setTitle('');
+        setType('deposit');
+
+        onRequestClose();
     };
 
     return (
